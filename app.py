@@ -46,11 +46,13 @@ async def get_one_fruit(id: UUID):
 async def add_new_fruit(fruit_request:Fruit):
 	if fruit_request.name and fruit_request.variety and fruit_request.quantity and fruit_request.supplier and fruit_request.harvest_date and fruit_request.price:
 		Fruit_data.append(fruit_request)
-		fruit_json = jsonable_encoder(fruit_request)
-		return fruit_json
+		
 	else:
 		raise HTTPException(status_code=400, detail = "Missing required fields")
 	
+	fruit_json = jsonable_encoder(fruit_request)
+	return JSONResponse(fruit_json, status_code=201)
+
 @app.patch("/api/fruits/{id}")
 async def update_fruit(id:UUID, fruit_update:Fruit_Update):
 	for i,fruit_info in enumerate(Fruit_data):
